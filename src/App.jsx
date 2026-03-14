@@ -48,7 +48,7 @@ export default function App() {
 
   const downloadCard = () => {
     if (cardRef.current === null) return;
-    toPng(cardRef.current, { cacheBust: true, pixelRatio: 3 }) // Высокое качество для соцсетей
+    toPng(cardRef.current, { cacheBust: true, pixelRatio: 3 })
       .then((dataUrl) => {
         const link = document.createElement('a');
         link.download = `oro-ai-identity.png`;
@@ -64,7 +64,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#f8fafc] via-[#eff6ff] to-[#fff7ed] flex items-center justify-center p-4 font-sans text-slate-800 overflow-hidden relative">
-      {/* Элементы фона */}
+      {/* Background Decor */}
       <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-blue-200/30 rounded-full blur-[120px] -z-10" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-orange-200/30 rounded-full blur-[120px] -z-10" />
 
@@ -129,16 +129,16 @@ export default function App() {
 
       {step === 'result' && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center w-full flex flex-col items-center max-w-2xl px-4">
-          {/* КАРТОЧКА */}
-          <div ref={cardRef} className="bg-gradient-to-br from-white via-slate-50 to-orange-50/30 p-10 rounded-[2.5rem] shadow-2xl border border-white overflow-hidden relative mb-8 w-full max-w-[540px]">
-            {/* Стеклянный блик на фоне */}
-            <div className="absolute -top-24 -left-24 w-48 h-48 bg-white/40 blur-3xl rounded-full" />
+          {/* КАРТОЧКА С ОБНОВЛЕННЫМ ДИЗАЙНОМ ЛОГОТИПА */}
+          <div ref={cardRef} className="bg-gradient-to-br from-white via-slate-50 to-orange-50 p-10 rounded-[2.5rem] shadow-2xl border border-white overflow-hidden relative mb-8 w-full max-w-[540px]">
+            {/* Блик на фоне */}
+            <div className="absolute -top-20 -left-20 w-40 h-40 bg-white/50 blur-3xl rounded-full" />
             <div className="absolute top-0 inset-x-0 h-2 bg-gradient-to-r from-blue-400 via-orange-300 to-yellow-400" />
             
-            <p className="text-[12px] font-black tracking-[0.5em] text-slate-300 mb-10 uppercase text-center">Protocol Identity Node</p>
+            <p className="text-[12px] font-black tracking-[0.5em] text-slate-300 mb-10 uppercase text-center">Identity Network Node</p>
             
             <div className="flex items-center justify-between mb-8 px-2 text-left">
-              <div className="w-28 h-28 bg-white rounded-3xl border-4 border-white shadow-xl flex items-center justify-center overflow-hidden shrink-0 transform rotate-2">
+              <div className="w-28 h-28 bg-white rounded-3xl border-4 border-white shadow-xl flex items-center justify-center overflow-hidden shrink-0">
                 {avatar ? <img src={avatar} alt="avatar" className="w-full h-full object-cover" /> : <span className="text-4xl font-black text-orange-400">AI</span>}
               </div>
               <div className="ml-8 flex-1">
@@ -147,9 +147,9 @@ export default function App() {
               </div>
             </div>
             
-            <div className="bg-white/60 backdrop-blur-md rounded-2xl p-5 mb-8 border border-white/50 text-left shadow-inner">
+            <div className="bg-white rounded-2xl p-5 mb-8 border border-slate-100 text-left shadow-inner">
               <p className="text-[9px] text-slate-400 uppercase font-black mb-1 tracking-widest">Discord Identity</p>
-              <p className="text-xl font-mono font-bold text-slate-800 truncate">{discord || 'Anonymous_Node'}</p>
+              <p className="text-xl font-mono font-bold text-slate-800 truncate">{discord || 'Anonymous_Explorer'}</p>
             </div>
 
             <div className="flex justify-between items-end px-2">
@@ -157,14 +157,11 @@ export default function App() {
                 ORO_VALIDATED
               </div>
               
-              {/* Логотип в рамке справа внизу */}
-              <div className="flex flex-col items-center">
-                <div className="border-2 border-orange-200 p-2 rounded-xl bg-white/50 backdrop-blur-sm shadow-sm">
-                   <div className="bg-gradient-to-r from-orange-400 to-yellow-400 px-3 py-1 rounded-lg">
-                      <span className="text-white font-black text-xs tracking-tighter">ORO AI</span>
-                   </div>
-                </div>
-                <span className="text-[8px] text-slate-300 font-bold mt-2 font-mono tracking-tighter uppercase">Est. 2026</span>
+              {/* ОБНОВЛЕННЫЙ ТЕКСТ ЛОГОТИПА БЕЗ ОБВОДКИ И ДАТЫ */}
+              <div className="mb-[-4px]">
+                <span className="text-slate-950 font-bold text-xl tracking-tighter" style={{ fontFamily: 'Fredoka, sans-serif' }}>
+                  ORO AI
+                </span>
               </div>
             </div>
           </div>
