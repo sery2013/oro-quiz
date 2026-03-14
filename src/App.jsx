@@ -3,12 +3,12 @@ import { questions } from './questions';
 import { toPng } from 'html-to-image';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// Генерируем данные для водяных знаков вне компонента, чтобы они были статичны и всегда доступны
+// Генерируем данные для водяных знаков один раз
 const WATERMARK_DATA = [...Array(25)].map((_, i) => ({
   id: i,
-  top: `${Math.floor(Math.random() * 100)}%`,
-  left: `${Math.floor(Math.random() * 100)}%`,
-  rotate: `${Math.floor(Math.random() * 360)}deg`,
+  top: `${(i * 7) % 100}%`, // Более равномерное распределение
+  left: `${(i * 13) % 100}%`,
+  rotate: `${(i * 45) % 360}deg`,
 }));
 
 export default function App() {
@@ -73,22 +73,23 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#f1f3f6] flex items-center justify-center p-4 font-sans text-slate-800 overflow-hidden relative">
       
-      {/* 1. Слой градиентов (ваш оригинальный) */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_rgba(251,146,60,0.12),_transparent)] -z-10" />
-      <div className="absolute top-[-15%] left-[-10%] w-[60%] h-[60%] bg-orange-300/30 rounded-full blur-[110px] -z-10" />
-      <div className="absolute bottom-[-15%] right-[-10%] w-[50%] h-[50%] bg-orange-400/20 rounded-full blur-[130px] -z-10" />
-      <div className="absolute top-[20%] right-[15%] w-[25%] h-[25%] bg-blue-200/40 rounded-full blur-[90px] -z-10" />
+      {/* Слой 1: Декоративные пятна фона */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_rgba(251,146,60,0.12),_transparent)] -z-30" />
+      <div className="absolute top-[-15%] left-[-10%] w-[60%] h-[60%] bg-orange-300/30 rounded-full blur-[110px] -z-30" />
+      <div className="absolute bottom-[-15%] right-[-10%] w-[50%] h-[50%] bg-orange-400/20 rounded-full blur-[130px] -z-30" />
+      <div className="absolute top-[20%] right-[15%] w-[25%] h-[25%] bg-blue-200/40 rounded-full blur-[90px] -z-30" />
 
-      {/* 2. Слой водяных знаков ORO AI (исправленный) */}
-      <div className="absolute inset-0 pointer-events-none select-none -z-10">
+      {/* Слой 2: Водяные знаки ORO AI */}
+      <div className="absolute inset-0 pointer-events-none select-none -z-20 overflow-hidden">
         {WATERMARK_DATA.map((mark) => (
           <div
             key={mark.id}
-            className="absolute font-black text-3xl tracking-tighter text-orange-900/10 whitespace-nowrap"
+            className="absolute font-black text-2xl tracking-tighter text-slate-400/10 uppercase whitespace-nowrap"
             style={{
               top: mark.top,
               left: mark.left,
               transform: `rotate(${mark.rotate})`,
+              opacity: 0.15 // Явно заданная прозрачность для видимости
             }}
           >
             ORO AI
