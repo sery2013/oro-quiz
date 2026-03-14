@@ -2,7 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  background-color: #0a0a0a;
-  overflow-x: hidden;
+@layer base {
+  body {
+    @apply antialiased text-slate-900 bg-white;
+    margin: 0;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+}
+
+.backdrop-blur-xl {
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+
+.backdrop-blur-2xl {
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+}
+
+circle {
+  transition: stroke-dashoffset 1s linear;
+}
+
+button {
+  @apply active:scale-[0.98] transition-transform;
 }
