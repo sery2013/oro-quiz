@@ -64,7 +64,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#0a0a0c] flex items-center justify-center p-4 font-sans text-white overflow-hidden relative">
-      {/* Background Decor: Глубокий градиент и оранжевые свечения */}
+      {/* Background Decor */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-orange-950/20 via-[#0a0a0c] to-[#0a0a0c] -z-10" />
       <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-orange-500/10 rounded-full blur-[120px] -z-10" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-blue-500/10 rounded-full blur-[120px] -z-10" />
@@ -74,15 +74,23 @@ export default function App() {
           <div className="bg-gradient-to-r from-orange-400 to-yellow-400 px-6 py-2 rounded-2xl mx-auto mb-6 flex items-center justify-center shadow-lg shadow-orange-900/50 w-fit">
             <span className="text-slate-950 font-black text-2xl tracking-tighter uppercase">ORO AI</span>
           </div>
+          
           <h1 className="text-3xl font-extrabold mb-2 tracking-tight text-white">Intelligence Quiz</h1>
-          <p className="text-slate-400 mb-8 font-medium italic">Empowering AI with Privacy</p>
+          
+          {/* Объемный текстовый блок */}
+          <div className="space-y-4 mb-8">
+            <p className="text-orange-400 font-bold text-xs uppercase tracking-[0.2em]">Mission: Privacy-First AI</p>
+            <p className="text-slate-400 text-sm leading-relaxed">
+              Join the evolution of decentralized data. Complete this 15-question assessment to verify your expertise and claim your unique <span className="text-white font-semibold">Data Contributor ID</span>. Your contribution helps build a safer, more private future for Artificial Intelligence.
+            </p>
+          </div>
           
           <div className="space-y-4">
             <label className="block w-full p-4 rounded-2xl border-2 border-dashed border-slate-700 hover:border-orange-500 transition-colors cursor-pointer bg-slate-900/50">
               <span className="text-sm font-bold text-slate-400">{avatar ? "✓ Avatar Ready" : "Upload Identity Avatar"}</span>
               <input type="file" onChange={handleAvatar} className="hidden" accept="image/*" />
             </label>
-            <button onClick={() => setStep('quiz')} className="w-full bg-white text-slate-950 font-bold py-4 rounded-2xl shadow-xl hover:bg-slate-200 transition-all">
+            <button onClick={() => setStep('quiz')} className="w-full bg-white text-slate-950 font-bold py-4 rounded-2xl shadow-xl hover:bg-slate-200 transition-all uppercase tracking-widest text-xs">
               Initiate System
             </button>
           </div>
@@ -130,9 +138,7 @@ export default function App() {
 
       {step === 'result' && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center w-full flex flex-col items-center max-w-2xl px-4">
-          {/* КАРТОЧКА С ОБНОВЛЕННЫМ ДИЗАЙНОМ И ЛОГОТИПОМ ORO AI */}
           <div ref={cardRef} className="bg-gradient-to-br from-white via-slate-50 to-orange-50 p-10 rounded-[2.5rem] shadow-[0_0_90px_-10px_rgba(251,146,60,0.5)] border border-white overflow-hidden relative mb-8 w-full max-w-[540px]">
-            {/* Стеклянный блик на фоне */}
             <div className="absolute -top-20 -left-20 w-40 h-40 bg-white/50 blur-3xl rounded-full" />
             <div className="absolute top-0 inset-x-0 h-2 bg-gradient-to-r from-blue-400 via-orange-300 to-yellow-400" />
             
@@ -158,7 +164,6 @@ export default function App() {
                 ORO_VALIDATED
               </div>
               
-              {/* ОБНОВЛЕННЫЙ ТЕКСТ ЛОГОТИПА ORO FONT FREDOKA ЧЕРНЫМ ЦВЕТОМ */}
               <div className="mb-[-4px] leading-none">
                 <span className="text-slate-950 font-bold text-xl tracking-tighter" style={{ fontFamily: 'Fredoka, sans-serif' }}>
                   ORO AI
@@ -167,7 +172,6 @@ export default function App() {
             </div>
           </div>
 
-          {/* КНОПКИ УПРАВЛЕНИЯ */}
           <div className="space-y-3 w-full max-w-sm">
             <input 
               type="text" 
