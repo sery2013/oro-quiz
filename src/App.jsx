@@ -78,7 +78,7 @@ export default function App() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_rgba(251,146,60,0.06),_transparent)] z-[-2]" />
       <div className="absolute top-[-20%] left-[-10%] w-[70%] h-[70%] bg-orange-200/10 rounded-full blur-[120px] z-[-2]" />
 
-      {/* Слой 2: Водяные знаки вразноброс (ORO AI) */}
+      {/* Слой 2: Водяные знаки вразноброс */}
       <div className="absolute inset-0 pointer-events-none select-none z-0 overflow-hidden">
         {WATERMARK_DATA.map((mark) => (
           <div
@@ -88,7 +88,7 @@ export default function App() {
               top: mark.top,
               left: mark.left,
               transform: `rotate(${mark.rotate}) scale(${mark.scale})`,
-              opacity: 0.02, // Почти невидимые, как ты просил
+              opacity: 0.07, // Увеличено с 0.02 до 0.07 для лучшей видимости
             }}
           >
             ORO AI
@@ -101,9 +101,10 @@ export default function App() {
           <div className="bg-gradient-to-r from-orange-400 to-yellow-400 px-6 py-2 rounded-2xl mx-auto mb-6 flex items-center justify-center shadow-lg shadow-orange-200 w-fit">
             <span className="text-white font-black text-2xl tracking-tighter uppercase">ORO AI</span>
           </div>
-          <h1 className="text-3xl font-extrabold mb-2 tracking-tight text-[#0f172a]">Intelligence Quiz</h1>
+          <h1 className="text-3xl font-extrabold mb-2 tracking-tight">Intelligence Quiz</h1>
           
-          <p className="text-slate-400 text-sm italic mb-8 italic">Empowering AI with Privacy</p>
+          {/* ВОССТАНОВЛЕННЫЙ ТЕКСТ */}
+          <p className="text-slate-400 text-sm italic mb-8">Empowering AI with Privacy</p>
           
           <div className="space-y-4">
             <label className="block w-full p-4 rounded-2xl border-2 border-dashed border-slate-200 hover:border-orange-300 transition-colors cursor-pointer bg-slate-50/50">
@@ -157,6 +158,7 @@ export default function App() {
           <div ref={cardRef} className="bg-white p-10 rounded-[2.5rem] shadow-[0_30px_70px_-15px_rgba(0,0,0,0.1)] border border-white overflow-hidden relative mb-8 w-full max-w-[500px]">
             <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-blue-400 via-orange-300 to-yellow-400" />
             
+            {/* ВОССТАНОВЛЕННЫЙ ЗАГОЛОВОК КАРТОЧКИ */}
             <p className="text-[10px] font-black tracking-[0.4em] text-slate-300 mb-10 uppercase">Protocol Identity Node</p>
             
             <div className="flex items-center justify-between mb-8 px-2 text-left">
@@ -175,16 +177,18 @@ export default function App() {
             </div>
 
             <div className="flex justify-between items-end">
-              <div className="py-2 px-4 bg-[#0f172a] text-white rounded-lg text-[9px] font-black tracking-widest uppercase">
+              <div className="py-2 px-4 bg-[#0f172a] text-white rounded-lg text-[9px] font-black tracking-widest">
                 ORO_VALIDATED
               </div>
               
+              {/* ВОССТАНОВЛЕННЫЙ БЛОК ЛОГО И EST 2026 */}
               <div className="flex flex-col items-end">
                 <div className="bg-orange-400 text-white px-3 py-1 rounded-md text-[10px] font-black">ORO AI</div>
                 <span className="text-[8px] text-slate-300 mt-1 font-bold tracking-tighter">EST. 2026</span>
               </div>
             </div>
 
+            {/* ВОССТАНОВЛЕННАЯ МЕТКА GEN_PRO */}
             <div className="absolute bottom-2 right-10 opacity-10">
                <span className="text-[7px] font-black text-slate-900 uppercase">2026_GEN_PRO</span>
             </div>
