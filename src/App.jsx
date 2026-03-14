@@ -3,6 +3,14 @@ import { questions } from './questions';
 import { toPng } from 'html-to-image';
 import { motion, AnimatePresence } from 'framer-motion';
 
+// Генерируем данные для водяных знаков вне компонента, чтобы они были статичны и всегда доступны
+const WATERMARK_DATA = [...Array(25)].map((_, i) => ({
+  id: i,
+  top: `${Math.floor(Math.random() * 100)}%`,
+  left: `${Math.floor(Math.random() * 100)}%`,
+  rotate: `${Math.floor(Math.random() * 360)}deg`,
+}));
+
 export default function App() {
   const [step, setStep] = useState('welcome');
   const [current, setCurrent] = useState(0);
@@ -11,14 +19,6 @@ export default function App() {
   const [avatar, setAvatar] = useState(null);
   const [discord, setDiscord] = useState('');
   const cardRef = useRef(null);
-
-  // Генерируем позиции для водяных знаков один раз
-  const watermarks = useRef([...Array(20)].map((_, i) => ({
-    id: i,
-    top: `${Math.random() * 100}%`,
-    left: `${Math.random() * 100}%`,
-    rotate: `${Math.random() * 360}deg`,
-  })));
 
   useEffect(() => {
     if (step === 'quiz' && timeLeft > 0) {
@@ -72,22 +72,27 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#f1f3f6] flex items-center justify-center p-4 font-sans text-slate-800 overflow-hidden relative">
-      {/* Background Decor */}
+      
+      {/* 1. Слой градиентов (ваш оригинальный) */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_rgba(251,146,60,0.12),_transparent)] -z-10" />
       <div className="absolute top-[-15%] left-[-10%] w-[60%] h-[60%] bg-orange-300/30 rounded-full blur-[110px] -z-10" />
       <div className="absolute bottom-[-15%] right-[-10%] w-[50%] h-[50%] bg-orange-400/20 rounded-full blur-[130px] -z-10" />
       <div className="absolute top-[20%] right-[15%] w-[25%] h-[25%] bg-blue-200/40 rounded-full blur-[90px] -z-10" />
 
-      {/* Слой с водяными знаками ORO AI */}
-      <div className="absolute inset-0 pointer-events-none opacity-[0.05] -z-10">
-        {watermarks.current.map((m) => (
-          <span
-            key={m.id}
-            className="absolute font-black text-2xl tracking-tighter text-slate-400"
-            style={{ top: m.top, left: m.left, transform: `rotate(${m.rotate})` }}
+      {/* 2. Слой водяных знаков ORO AI (исправленный) */}
+      <div className="absolute inset-0 pointer-events-none select-none -z-10">
+        {WATERMARK_DATA.map((mark) => (
+          <div
+            key={mark.id}
+            className="absolute font-black text-3xl tracking-tighter text-orange-900/10 whitespace-nowrap"
+            style={{
+              top: mark.top,
+              left: mark.left,
+              transform: `rotate(${mark.rotate})`,
+            }}
           >
             ORO AI
-          </span>
+          </div>
         ))}
       </div>
 
