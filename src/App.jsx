@@ -3,14 +3,31 @@ import { questions } from './questions';
 import { toPng } from 'html-to-image';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// --- ГЕНЕРАЦИЯ ФОНОВЫХ ЗНАКОВ ---
-const WATERMARK_DATA = [...Array(12)].map((_, i) => ({
-  id: i,
-  top: `${Math.random() * 90}%`,
-  left: `${Math.random() * 90}%`,
-  rotate: `${Math.random() * 360}deg`,
-  scale: 0.7 + Math.random() * 0.6,
-}));
+// --- ГЕНЕРАЦИЯ ФОНОВЫХ ЗНАКОВ (18 ШТУК, РАВНОМЕРНО РАСПРЕДЕЛЕННЫХ) ---
+const generateWatermarks = () => {
+  const count = 18;
+  const marks = [];
+  // Используем сетку 6x3 для более равномерного разброса по экрану
+  const columns = 6;
+  const rows = 3;
+  
+  for (let i = 0; i < count; i++) {
+    const col = i % columns;
+    const row = Math.floor(i / columns);
+    
+    marks.push({
+      id: i,
+      // Добавляем случайное смещение внутри ячейки сетки, чтобы не выглядело слишком ровно
+      top: `${(row * 33) + Math.random() * 20}%`,
+      left: `${(col * 16) + Math.random() * 10}%`,
+      rotate: `${Math.random() * 360}deg`,
+      scale: 0.6 + Math.random() * 0.4,
+    });
+  }
+  return marks;
+};
+
+const WATERMARK_DATA = generateWatermarks();
 
 export default function App() {
   const [step, setStep] = useState('welcome');
@@ -78,7 +95,7 @@ export default function App() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_rgba(251,146,60,0.06),_transparent)] z-[-2]" />
       <div className="absolute top-[-20%] left-[-10%] w-[70%] h-[70%] bg-orange-200/10 rounded-full blur-[120px] z-[-2]" />
 
-      {/* Слой 2: Водяные знаки */}
+      {/* Слой 2: Водяные знаки (Разбросаны по одному, 18 шт) */}
       <div className="absolute inset-0 pointer-events-none select-none z-0 overflow-hidden">
         {WATERMARK_DATA.map((mark) => (
           <div
@@ -88,7 +105,7 @@ export default function App() {
               top: mark.top,
               left: mark.left,
               transform: `rotate(${mark.rotate}) scale(${mark.scale})`,
-              opacity: 0.03, 
+              opacity: 0.04, 
             }}
           >
             ORO AI
@@ -106,12 +123,10 @@ export default function App() {
           
           <h1 className="text-[42px] font-black mb-3 tracking-tight text-[#1e293b] leading-tight">Intelligence Quiz</h1>
           
-          {/* ВОССТАНОВЛЕННЫЙ ТЕКСТ MISSION */}
           <p className="text-orange-500 font-black text-[11px] uppercase tracking-[0.25em] mb-6">
             Mission: Privacy-First AI
           </p>
           
-          {/* ОСНОВНОЕ ОПИСАНИЕ */}
           <p className="text-[#64748b] text-[15px] leading-relaxed mb-10 px-6">
             Join the evolution of decentralized data. Complete this 15-question assessment to verify your expertise and claim your unique <span className="font-bold text-[#1e293b]">Data Contributor ID</span>. Your contribution helps build a safer, more private future for Artificial Intelligence.
           </p>
