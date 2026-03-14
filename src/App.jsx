@@ -88,7 +88,7 @@ export default function App() {
               top: mark.top,
               left: mark.left,
               transform: `rotate(${mark.rotate}) scale(${mark.scale})`,
-              opacity: 0.07, // Увеличено с 0.02 до 0.07 для лучшей видимости
+              opacity: 0.08, // Прозрачность увеличена для видимости
             }}
           >
             ORO AI
