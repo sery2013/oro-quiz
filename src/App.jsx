@@ -3,36 +3,15 @@ import { questions } from './questions';
 import { toPng } from 'html-to-image';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// --- НАЧАЛО БЛОКА: ГЕНЕРАЦИЯ ХАОТИЧНОЙ СЕТКИ ВОДЯНЫХ ЗНАКОВ ---
-
-// Генерируем фиксированный массив для 40 знаков вне компонента.
-// Это предотвратит их пропадание и мерцание при перерисовках React.
-// Мы используем фиксированные шаги, чтобы они не накладывались друг на друга,
-// но добавляем случайный сдвиг (randomness) для эффекта "в разноброс".
-
-const generateChaoticWatermarks = (count) => {
-  const marks = [];
-  const randomness = 15; // Сила случайного сдвига (в %)
-
-  for (let i = 0; i < count; i++) {
-    const baseTop = (i / (count / 4)) * 25; // Распределяем по 4 колонкам
-    const baseLeft = (i % (count / 10)) * 10; // Распределяем по 10 рядам
-
-    marks.push({
-      id: i,
-      // Базовая позиция + случайный сдвиг
-      top: `${baseTop + (Math.random() - 0.5) * randomness}%`,
-      left: `${baseLeft + (Math.random() - 0.5) * randomness}%`,
-      // Полностью случайный наклон (от -90 до +90 градусов)
-      rotate: `${Math.random() * 180 - 90}deg`,
-    });
-  }
-  return marks;
-};
-
-const WATERMARK_DATA = generateChaoticWatermarks(40); // 40 надписей по всему фону
-
-// --- КОНЕЦ БЛОКА: ГЕНЕРАЦИЯ ХАОТИЧНОЙ СЕТКИ ВОДЯНЫХ ЗНАКОВ ---
+// --- ГЕНЕРАЦИЯ ФОНОВЫХ ЗНАКОВ ---
+// Генерируем 12 редких знаков в случайных местах и под разными углами
+const WATERMARK_DATA = [...Array(12)].map((_, i) => ({
+  id: i,
+  top: `${Math.random() * 90}%`,
+  left: `${Math.random() * 90}%`,
+  rotate: `${Math.random() * 360}deg`,
+  scale: 0.7 + Math.random() * 0.6,
+}));
 
 export default function App() {
   const [step, setStep] = useState('welcome');
@@ -89,30 +68,28 @@ export default function App() {
   };
 
   const shareTwitter = () => {
-    const text = encodeURIComponent(`I just scored ${score}/${questions.length} on the @getoro_xyz Intelligence Quiz! 🧠✨\n\nVerified as a Data Contributor. Join the future of AI data privacy here:\n\nhttps://getoro.xyz #OROAI #AIData #Privacy`);
+    const text = encodeURIComponent(`I just scored ${score}/${questions.length} on the @getoro_xyz Intelligence Quiz! 🧠✨\n\nVerified as a Data Contributor. #OROAI #AIData #Privacy`);
     window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank');
   };
 
   return (
     <div className="min-h-screen bg-[#f1f3f6] flex items-center justify-center p-4 font-sans text-slate-800 overflow-hidden relative">
       
-      {/* Слой 1: Декоративные пятна фона (самый нижний уровень) */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_rgba(251,146,60,0.12),_transparent)] z-[-2]" />
-      <div className="absolute top-[-15%] left-[-10%] w-[60%] h-[60%] bg-orange-300/30 rounded-full blur-[110px] z-[-2]" />
-      <div className="absolute bottom-[-15%] right-[-10%] w-[50%] h-[50%] bg-orange-400/20 rounded-full blur-[130px] z-[-2]" />
+      {/* Слой 1: Декоративное свечение */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_rgba(251,146,60,0.06),_transparent)] z-[-2]" />
+      <div className="absolute top-[-20%] left-[-10%] w-[70%] h-[70%] bg-orange-200/10 rounded-full blur-[120px] z-[-2]" />
 
-      {/* Слой 2: Водяные знаки ORO AI (ХАОТИЧНАЯ СЕТКА С АБСОЛЮТНЫМ ПОЗИЦИОНИРОВАНИЕМ) */}
+      {/* Слой 2: Редкие хаотичные водяные знаки */}
       <div className="absolute inset-0 pointer-events-none select-none z-0 overflow-hidden">
         {WATERMARK_DATA.map((mark) => (
           <div
             key={mark.id}
-            className="absolute font-black text-4xl tracking-tighter text-slate-950 uppercase whitespace-nowrap"
+            className="absolute font-black text-4xl tracking-tighter text-slate-900 uppercase whitespace-nowrap"
             style={{
               top: mark.top,
               left: mark.left,
-              transform: `rotate(${mark.rotate})`,
-              // МАКСИМАЛЬНАЯ ПРОЗРАЧНОСТЬ ДЛЯ ЕЛЕ ЗАМЕТНОГО ЭФФЕКТА
-              opacity: 0.05 
+              transform: `rotate(${mark.rotate}) scale(${mark.scale})`,
+              opacity: 0.02, // Почти прозрачные для чистого фона
             }}
           >
             ORO AI
@@ -121,23 +98,18 @@ export default function App() {
       </div>
 
       {step === 'welcome' && (
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-md w-full bg-white p-10 rounded-[2.5rem] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.1)] border border-white/50 text-center relative z-50">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-md w-full bg-white p-10 rounded-[2.5rem] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.08)] border border-white/50 text-center relative z-50">
           <div className="bg-gradient-to-r from-orange-400 to-yellow-400 px-6 py-2 rounded-2xl mx-auto mb-6 flex items-center justify-center shadow-lg shadow-orange-200 w-fit">
             <span className="text-white font-black text-2xl tracking-tighter uppercase">ORO AI</span>
           </div>
           <h1 className="text-3xl font-extrabold mb-2 tracking-tight">Intelligence Quiz</h1>
-          <div className="space-y-4 mb-8">
-            <p className="text-orange-500 font-bold text-xs uppercase tracking-[0.2em]">Mission: Privacy-First AI</p>
-            <p className="text-slate-500 text-sm leading-relaxed">
-              Join the evolution of decentralized data. Complete this 15-question assessment to verify your expertise and claim your unique <span className="font-semibold text-slate-900">Data Contributor ID</span>.
-            </p>
-          </div>
+          <p className="text-slate-400 text-sm italic mb-8 italic">Empowering AI with Privacy</p>
           <div className="space-y-4">
             <label className="block w-full p-4 rounded-2xl border-2 border-dashed border-slate-200 hover:border-orange-300 transition-colors cursor-pointer bg-slate-50/50">
               <span className="text-sm font-bold text-slate-500">{avatar ? "✓ Avatar Ready" : "Upload Identity Avatar"}</span>
               <input type="file" onChange={handleAvatar} className="hidden" accept="image/*" />
             </label>
-            <button onClick={() => setStep('quiz')} className="w-full bg-slate-900 text-white font-bold py-4 rounded-2xl shadow-xl hover:bg-black transition-all uppercase tracking-widest text-xs">
+            <button onClick={() => setStep('quiz')} className="w-full bg-[#0f172a] text-white font-bold py-4 rounded-2xl shadow-xl hover:bg-black transition-all uppercase tracking-widest text-xs">
               Initiate System
             </button>
           </div>
@@ -181,49 +153,52 @@ export default function App() {
 
       {step === 'result' && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center w-full flex flex-col items-center max-w-2xl px-4 relative z-50">
-          <div ref={cardRef} className="bg-gradient-to-br from-white via-slate-50 to-orange-50 p-10 rounded-[2.5rem] shadow-[0_30px_70px_-15px_rgba(0,0,0,0.15)] border border-white overflow-hidden relative mb-8 w-full max-w-[540px]">
-            <div className="absolute top-0 inset-x-0 h-2 bg-gradient-to-r from-blue-400 via-orange-300 to-yellow-400" />
-            <p className="text-[12px] font-black tracking-[0.5em] text-slate-300 mb-10 uppercase text-center">Identity Network Node</p>
+          <div ref={cardRef} className="bg-white p-10 rounded-[2.5rem] shadow-[0_30px_70px_-15px_rgba(0,0,0,0.1)] border border-white overflow-hidden relative mb-8 w-full max-w-[500px]">
+            <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-blue-400 via-orange-300 to-yellow-400" />
+            <p className="text-[10px] font-black tracking-[0.4em] text-slate-300 mb-10 uppercase">Protocol Identity Node</p>
+            
             <div className="flex items-center justify-between mb-8 px-2 text-left">
-              <div className="w-28 h-28 bg-white rounded-3xl border-4 border-white shadow-xl flex items-center justify-center overflow-hidden shrink-0 transform rotate-1">
-                {avatar ? <img src={avatar} alt="avatar" className="w-full h-full object-cover" /> : <span className="text-4xl font-black text-orange-400">AI</span>}
+              <div className="w-24 h-24 bg-slate-50 rounded-2xl border-4 border-white shadow-xl overflow-hidden shrink-0 transform -rotate-2">
+                {avatar ? <img src={avatar} alt="avatar" className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center font-black text-orange-200 text-2xl">ORO</div>}
               </div>
               <div className="ml-8 flex-1">
-                 <h3 className="text-6xl font-black text-slate-800 mb-1 leading-none">{score}<span className="text-xl text-slate-300 ml-1">/15</span></h3>
-                 <p className="text-orange-500 font-bold text-[13px] uppercase tracking-[0.2em] mt-2 leading-none">Master Data Contributor</p>
+                 <h3 className="text-5xl font-black text-slate-800 leading-none">{score}<span className="text-lg text-slate-300 ml-1">/15</span></h3>
+                 <p className="text-orange-500 font-bold text-[11px] uppercase tracking-widest mt-2">Master Data Contributor</p>
               </div>
             </div>
-            <div className="bg-slate-100/50 rounded-2xl p-5 mb-8 border border-white text-left shadow-inner">
-              <p className="text-[9px] text-slate-400 uppercase font-black mb-1 tracking-widest">Discord Identity</p>
-              <p className="text-xl font-mono font-bold text-slate-800 truncate">{discord || 'Anonymous_Explorer'}</p>
+
+            <div className="bg-slate-50 rounded-2xl p-4 mb-8 border border-slate-100 text-left">
+              <p className="text-[8px] text-slate-400 uppercase font-black mb-1 tracking-widest">Discord Identity</p>
+              <p className="text-lg font-mono font-bold text-slate-700 truncate">{discord || 'Anonymous_Node'}</p>
             </div>
-            <div className="flex justify-between items-end px-2">
-              <div className="py-2.5 px-6 bg-slate-900 text-white rounded-xl text-[10px] font-black tracking-[0.25em] shadow-lg shadow-slate-400">
+
+            <div className="flex justify-between items-center">
+              <div className="py-2 px-4 bg-[#0f172a] text-white rounded-lg text-[9px] font-black tracking-widest">
                 ORO_VALIDATED
               </div>
-              <div className="mb-[-4px] leading-none">
-                <span className="text-slate-950 font-bold text-xl tracking-tighter" style={{ fontFamily: 'Fredoka, sans-serif' }}>
-                  ORO AI
-                </span>
+              <div className="flex flex-col items-end">
+                <div className="bg-orange-400 text-white px-3 py-1 rounded-md text-[10px] font-black">ORO AI</div>
+                <span className="text-[8px] text-slate-300 mt-1 font-bold">EST. 2026</span>
               </div>
             </div>
           </div>
-          <div className="space-y-3 w-full max-w-sm">
+
+          <div className="space-y-3 w-full max-w-[320px]">
             <input 
               type="text" 
-              placeholder="Your Discord Handle" 
+              placeholder="Enter Discord Username" 
               value={discord}
               onChange={(e) => setDiscord(e.target.value)}
-              className="w-full p-4 rounded-2xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-orange-200 transition-all text-center font-bold text-slate-700 shadow-sm"
+              className="w-full p-4 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-orange-100 text-center font-bold text-slate-600 shadow-sm transition-all"
             />
-            <button onClick={downloadCard} className="w-full bg-slate-900 text-white font-black py-4 rounded-2xl shadow-xl hover:bg-black transition-all uppercase tracking-widest">
-              Download ID
+            <button onClick={downloadCard} className="w-full bg-[#0f172a] text-white font-black py-4 rounded-xl shadow-lg hover:bg-black transition-all uppercase tracking-widest text-xs">
+              Download ID Card
             </button>
-            <button onClick={shareTwitter} className="w-full bg-[#1DA1F2] text-white font-bold py-4 rounded-2xl shadow-xl hover:opacity-90 transition-all">
-              Post to Twitter
+            <button onClick={shareTwitter} className="w-full bg-[#00acee] text-white font-bold py-4 rounded-xl shadow-lg hover:opacity-90 transition-all text-xs uppercase tracking-widest">
+              Share on Twitter
             </button>
-            <button onClick={resetQuiz} className="w-full text-slate-400 text-xs font-black hover:text-orange-400 transition-colors uppercase tracking-[0.2em] pt-4">
-              ← Restart System
+            <button onClick={resetQuiz} className="w-full text-slate-300 text-[10px] font-black hover:text-orange-400 transition-colors uppercase tracking-widest pt-4">
+              ← Restart Session
             </button>
           </div>
         </motion.div>
