@@ -3,14 +3,6 @@ import { questions } from './questions';
 import { toPng } from 'html-to-image';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// Генерируем данные для водяных знаков один раз
-const WATERMARK_DATA = [...Array(25)].map((_, i) => ({
-  id: i,
-  top: `${(i * 7) % 100}%`, // Более равномерное распределение
-  left: `${(i * 13) % 100}%`,
-  rotate: `${(i * 45) % 360}deg`,
-}));
-
 export default function App() {
   const [step, setStep] = useState('welcome');
   const [current, setCurrent] = useState(0);
@@ -73,24 +65,18 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#f1f3f6] flex items-center justify-center p-4 font-sans text-slate-800 overflow-hidden relative">
       
-      {/* Слой 1: Декоративные пятна фона */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_rgba(251,146,60,0.12),_transparent)] -z-30" />
-      <div className="absolute top-[-15%] left-[-10%] w-[60%] h-[60%] bg-orange-300/30 rounded-full blur-[110px] -z-30" />
-      <div className="absolute bottom-[-15%] right-[-10%] w-[50%] h-[50%] bg-orange-400/20 rounded-full blur-[130px] -z-30" />
-      <div className="absolute top-[20%] right-[15%] w-[25%] h-[25%] bg-blue-200/40 rounded-full blur-[90px] -z-30" />
+      {/* Слой 1: Декоративные пятна фона (самый нижний уровень) */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_rgba(251,146,60,0.12),_transparent)] z-[-2]" />
+      <div className="absolute top-[-15%] left-[-10%] w-[60%] h-[60%] bg-orange-300/30 rounded-full blur-[110px] z-[-2]" />
+      <div className="absolute bottom-[-15%] right-[-10%] w-[50%] h-[50%] bg-orange-400/20 rounded-full blur-[130px] z-[-2]" />
 
-      {/* Слой 2: Водяные знаки ORO AI */}
-      <div className="absolute inset-0 pointer-events-none select-none -z-20 overflow-hidden">
-        {WATERMARK_DATA.map((mark) => (
+      {/* Слой 2: Водяные знаки ORO AI (СЕТКА) */}
+      <div className="absolute inset-0 pointer-events-none select-none z-0 overflow-hidden flex flex-wrap gap-20 p-10 justify-around content-around opacity-20">
+        {[...Array(30)].map((_, i) => (
           <div
-            key={mark.id}
-            className="absolute font-black text-2xl tracking-tighter text-slate-400/10 uppercase whitespace-nowrap"
-            style={{
-              top: mark.top,
-              left: mark.left,
-              transform: `rotate(${mark.rotate})`,
-              opacity: 0.15 // Явно заданная прозрачность для видимости
-            }}
+            key={i}
+            className="font-black text-4xl tracking-tighter text-slate-900 uppercase whitespace-nowrap"
+            style={{ transform: `rotate(${(i % 2 === 0 ? 25 : -25)}deg)` }}
           >
             ORO AI
           </div>
@@ -98,7 +84,7 @@ export default function App() {
       </div>
 
       {step === 'welcome' && (
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-md w-full bg-white p-10 rounded-[2.5rem] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.1)] border border-white/50 text-center relative z-10">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-md w-full bg-white p-10 rounded-[2.5rem] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.1)] border border-white/50 text-center relative z-50">
           <div className="bg-gradient-to-r from-orange-400 to-yellow-400 px-6 py-2 rounded-2xl mx-auto mb-6 flex items-center justify-center shadow-lg shadow-orange-200 w-fit">
             <span className="text-white font-black text-2xl tracking-tighter uppercase">ORO AI</span>
           </div>
@@ -122,7 +108,7 @@ export default function App() {
       )}
 
       {step === 'quiz' && (
-        <div className="w-full max-w-2xl relative z-10">
+        <div className="w-full max-w-2xl relative z-50">
           <div className="flex justify-between items-center mb-6 px-4">
             <div className="flex flex-col">
               <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 italic">Core Scan</span>
@@ -141,9 +127,6 @@ export default function App() {
           <AnimatePresence mode="wait">
             <motion.div key={current} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 1.05 }}
               className="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-white min-h-[420px] flex flex-col justify-center relative overflow-hidden">
-              <div className="absolute top-0 right-0 p-8 opacity-[0.03] pointer-events-none">
-                <span className="text-8xl font-black">ORO</span>
-              </div>
               <h2 className="text-2xl font-bold mb-10 text-slate-800 leading-snug relative z-10">{questions[current].question}</h2>
               <div className="grid gap-4 relative z-10">
                 {questions[current].options.map((opt, i) => (
@@ -160,7 +143,7 @@ export default function App() {
       )}
 
       {step === 'result' && (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center w-full flex flex-col items-center max-w-2xl px-4 relative z-10">
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center w-full flex flex-col items-center max-w-2xl px-4 relative z-50">
           <div ref={cardRef} className="bg-gradient-to-br from-white via-slate-50 to-orange-50 p-10 rounded-[2.5rem] shadow-[0_30px_70px_-15px_rgba(0,0,0,0.15)] border border-white overflow-hidden relative mb-8 w-full max-w-[540px]">
             <div className="absolute top-0 inset-x-0 h-2 bg-gradient-to-r from-blue-400 via-orange-300 to-yellow-400" />
             <p className="text-[12px] font-black tracking-[0.5em] text-slate-300 mb-10 uppercase text-center">Identity Network Node</p>
