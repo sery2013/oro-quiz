@@ -1,17 +1,77 @@
 export const questions = [
-  { q: "What is ORO's primary focus?", a: ["DEX", "Privacy-Preserving AI Data", "Gaming"], c: 1 },
-  { q: "How much did ORO raise in seed funding?", a: ["$1M", "$6.5M", "$15M"], c: 1 },
-  { q: "Who is a lead investor in ORO?", a: ["a16z crypto", "Binance", "SoftBank"], c: 0 },
-  { q: "What does 'Oro' mean in Spanish?", a: ["Gold", "Data", "Future"], c: 0 },
-  { q: "Which DAO backed ORO?", a: ["MakerDAO", "Orange DAO", "Aave"], c: 1 },
-  { q: "Where do users earn ORO points?", a: ["Twitter", "app.getoro.xyz", "Instagram"], c: 1 },
-  { q: "ORO technology is mainly for:", a: ["NFT minting", "AI & Neural Networks", "Social Media"], c: 1 },
-  { q: "What is 'Privacy-Preserving'?", a: ["Public data", "Protected personal info", "No data"], c: 1 },
-  { q: "How many questions are in this quiz?", a: ["10", "15", "20"], c: 1 },
-  { q: "Is ORO data verification decentralized?", a: ["No", "Yes, by humans", "Only by AI"], c: 1 },
-  { q: "What happens if an answer is wrong?", a: ["Try again", "Skip to next", "Restart quiz"], c: 1 },
-  { q: "ORO mission is to own your:", a: ["Assets", "Data and rewards", "Identity"], c: 1 },
-  { q: "Which blockchain is ORO associated with?", a: ["Solana/Ethereum ecosystem", "Bitcoin", "Dogecoin"], c: 0 },
-  { q: "What is the ORO waiting list for?", a: ["Newsletter", "App access", "Merch"], c: 1 },
-  { q: "Is your data sold to 3rd parties?", a: ["Yes", "No, stays private", "Only for ads"], c: 1 }
+  {
+    question: "What is ORO's primary focus in the AI industry?",
+    options: ["Decentralized Mining", "Privacy-Preserving Personal Data", "Hardware Sales"],
+    correct: 1
+  },
+  {
+    question: "How much did ORO raise in its seed funding round?",
+    options: ["$2.5 Million", "$6.5 Million", "$12 Million"],
+    correct: 1
+  },
+  {
+    question: "Which venture capital fund led ORO's investment?",
+    options: ["a16z crypto", "Binance Labs", "Sequoia Capital"],
+    correct: 0
+  },
+  {
+    question: "What does the name 'Oro' symbolize?",
+    options: ["Speed of light", "Data is the new gold", "Online Robotics"],
+    correct: 1
+  },
+  {
+    question: "Which DAO is a notable backer of the ORO project?",
+    options: ["MakerDAO", "Orange DAO", "Aave DAO"],
+    correct: 1
+  },
+  {
+    question: "Where can users currently earn ORO points?",
+    options: ["app.getoro.xyz", "Twitter DM", "Reddit"],
+    correct: 0
+  },
+  {
+    question: "What is the core technology ORO uses for privacy?",
+    options: ["Public Databases", "Privacy-Preserving Computation", "Password Protection"],
+    correct: 1
+  },
+  {
+    question: "What benefit do users get for contributing their data?",
+    options: ["Ownership and Rewards", "Free internet", "Gift cards"],
+    correct: 0
+  },
+  {
+    question: "How is data quality verified in the ORO network?",
+    options: ["Centralized bots", "Decentralized human network", "Random guess"],
+    correct: 1
+  },
+  {
+    question: "Which social platform is the best for ORO updates?",
+    options: ["Facebook", "X (Twitter)", "Instagram"],
+    correct: 1
+  },
+  {
+    question: "What is the Sentient GRID in ORO's vision?",
+    options: ["A power grid", "AI intelligence layer", "Gaming server"],
+    correct: 1
+  },
+  {
+    question: "How can you join the ORO ecosystem right now?",
+    options: ["Buy a license", "Join the Waiting List", "Invite 100 people"],
+    correct: 1
+  },
+  {
+    question: "Is ORO data encrypted?",
+    options: ["No, it's public", "Yes, with high-level protocols", "Only for premium users"],
+    correct: 1
+  },
+  {
+    question: "What is 'Human Intelligence Contribution'?",
+    options: ["A way to train AI", "A physical job", "A donation"],
+    correct: 0
+  },
+  {
+    question: "Does ORO support Open Source AI development?",
+    options: ["Yes, absolutely", "No, it's private only", "Only for big companies"],
+    correct: 0
+  }
 ];
