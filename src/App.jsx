@@ -12,6 +12,14 @@ export default function App() {
   const [discord, setDiscord] = useState('');
   const cardRef = useRef(null);
 
+  // Генерируем позиции для водяных знаков один раз
+  const watermarks = useRef([...Array(20)].map((_, i) => ({
+    id: i,
+    top: `${Math.random() * 100}%`,
+    left: `${Math.random() * 100}%`,
+    rotate: `${Math.random() * 360}deg`,
+  })));
+
   useEffect(() => {
     if (step === 'quiz' && timeLeft > 0) {
       const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
@@ -64,27 +72,37 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#f1f3f6] flex items-center justify-center p-4 font-sans text-slate-800 overflow-hidden relative">
-      {/* Background Decor: Усиленные оранжевые акценты на приглушенном фоне */}
+      {/* Background Decor */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_rgba(251,146,60,0.12),_transparent)] -z-10" />
       <div className="absolute top-[-15%] left-[-10%] w-[60%] h-[60%] bg-orange-300/30 rounded-full blur-[110px] -z-10" />
       <div className="absolute bottom-[-15%] right-[-10%] w-[50%] h-[50%] bg-orange-400/20 rounded-full blur-[130px] -z-10" />
       <div className="absolute top-[20%] right-[15%] w-[25%] h-[25%] bg-blue-200/40 rounded-full blur-[90px] -z-10" />
 
+      {/* Слой с водяными знаками ORO AI */}
+      <div className="absolute inset-0 pointer-events-none opacity-[0.05] -z-10">
+        {watermarks.current.map((m) => (
+          <span
+            key={m.id}
+            className="absolute font-black text-2xl tracking-tighter text-slate-400"
+            style={{ top: m.top, left: m.left, transform: `rotate(${m.rotate})` }}
+          >
+            ORO AI
+          </span>
+        ))}
+      </div>
+
       {step === 'welcome' && (
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-md w-full bg-white p-10 rounded-[2.5rem] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.1)] border border-white/50 text-center">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-md w-full bg-white p-10 rounded-[2.5rem] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.1)] border border-white/50 text-center relative z-10">
           <div className="bg-gradient-to-r from-orange-400 to-yellow-400 px-6 py-2 rounded-2xl mx-auto mb-6 flex items-center justify-center shadow-lg shadow-orange-200 w-fit">
             <span className="text-white font-black text-2xl tracking-tighter uppercase">ORO AI</span>
           </div>
-          
           <h1 className="text-3xl font-extrabold mb-2 tracking-tight">Intelligence Quiz</h1>
-          
           <div className="space-y-4 mb-8">
             <p className="text-orange-500 font-bold text-xs uppercase tracking-[0.2em]">Mission: Privacy-First AI</p>
             <p className="text-slate-500 text-sm leading-relaxed">
               Join the evolution of decentralized data. Complete this 15-question assessment to verify your expertise and claim your unique <span className="font-semibold text-slate-900">Data Contributor ID</span>.
             </p>
           </div>
-          
           <div className="space-y-4">
             <label className="block w-full p-4 rounded-2xl border-2 border-dashed border-slate-200 hover:border-orange-300 transition-colors cursor-pointer bg-slate-50/50">
               <span className="text-sm font-bold text-slate-500">{avatar ? "✓ Avatar Ready" : "Upload Identity Avatar"}</span>
@@ -98,7 +116,7 @@ export default function App() {
       )}
 
       {step === 'quiz' && (
-        <div className="w-full max-w-2xl">
+        <div className="w-full max-w-2xl relative z-10">
           <div className="flex justify-between items-center mb-6 px-4">
             <div className="flex flex-col">
               <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 italic">Core Scan</span>
@@ -114,7 +132,6 @@ export default function App() {
                <span className="absolute font-mono font-bold text-xs">{timeLeft}</span>
             </div>
           </div>
-
           <AnimatePresence mode="wait">
             <motion.div key={current} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 1.05 }}
               className="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-white min-h-[420px] flex flex-col justify-center relative overflow-hidden">
@@ -137,12 +154,10 @@ export default function App() {
       )}
 
       {step === 'result' && (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center w-full flex flex-col items-center max-w-2xl px-4">
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center w-full flex flex-col items-center max-w-2xl px-4 relative z-10">
           <div ref={cardRef} className="bg-gradient-to-br from-white via-slate-50 to-orange-50 p-10 rounded-[2.5rem] shadow-[0_30px_70px_-15px_rgba(0,0,0,0.15)] border border-white overflow-hidden relative mb-8 w-full max-w-[540px]">
             <div className="absolute top-0 inset-x-0 h-2 bg-gradient-to-r from-blue-400 via-orange-300 to-yellow-400" />
-            
             <p className="text-[12px] font-black tracking-[0.5em] text-slate-300 mb-10 uppercase text-center">Identity Network Node</p>
-            
             <div className="flex items-center justify-between mb-8 px-2 text-left">
               <div className="w-28 h-28 bg-white rounded-3xl border-4 border-white shadow-xl flex items-center justify-center overflow-hidden shrink-0 transform rotate-1">
                 {avatar ? <img src={avatar} alt="avatar" className="w-full h-full object-cover" /> : <span className="text-4xl font-black text-orange-400">AI</span>}
@@ -152,12 +167,10 @@ export default function App() {
                  <p className="text-orange-500 font-bold text-[13px] uppercase tracking-[0.2em] mt-2 leading-none">Master Data Contributor</p>
               </div>
             </div>
-            
             <div className="bg-slate-100/50 rounded-2xl p-5 mb-8 border border-white text-left shadow-inner">
               <p className="text-[9px] text-slate-400 uppercase font-black mb-1 tracking-widest">Discord Identity</p>
               <p className="text-xl font-mono font-bold text-slate-800 truncate">{discord || 'Anonymous_Explorer'}</p>
             </div>
-
             <div className="flex justify-between items-end px-2">
               <div className="py-2.5 px-6 bg-slate-900 text-white rounded-xl text-[10px] font-black tracking-[0.25em] shadow-lg shadow-slate-400">
                 ORO_VALIDATED
@@ -169,7 +182,6 @@ export default function App() {
               </div>
             </div>
           </div>
-
           <div className="space-y-3 w-full max-w-sm">
             <input 
               type="text" 
