@@ -3,6 +3,37 @@ import { questions } from './questions';
 import { toPng } from 'html-to-image';
 import { motion, AnimatePresence } from 'framer-motion';
 
+// --- НАЧАЛО БЛОКА: ГЕНЕРАЦИЯ ХАОТИЧНОЙ СЕТКИ ВОДЯНЫХ ЗНАКОВ ---
+
+// Генерируем фиксированный массив для 40 знаков вне компонента.
+// Это предотвратит их пропадание и мерцание при перерисовках React.
+// Мы используем фиксированные шаги, чтобы они не накладывались друг на друга,
+// но добавляем случайный сдвиг (randomness) для эффекта "в разноброс".
+
+const generateChaoticWatermarks = (count) => {
+  const marks = [];
+  const randomness = 15; // Сила случайного сдвига (в %)
+
+  for (let i = 0; i < count; i++) {
+    const baseTop = (i / (count / 4)) * 25; // Распределяем по 4 колонкам
+    const baseLeft = (i % (count / 10)) * 10; // Распределяем по 10 рядам
+
+    marks.push({
+      id: i,
+      // Базовая позиция + случайный сдвиг
+      top: `${baseTop + (Math.random() - 0.5) * randomness}%`,
+      left: `${baseLeft + (Math.random() - 0.5) * randomness}%`,
+      // Полностью случайный наклон (от -90 до +90 градусов)
+      rotate: `${Math.random() * 180 - 90}deg`,
+    });
+  }
+  return marks;
+};
+
+const WATERMARK_DATA = generateChaoticWatermarks(40); // 40 надписей по всему фону
+
+// --- КОНЕЦ БЛОКА: ГЕНЕРАЦИЯ ХАОТИЧНОЙ СЕТКИ ВОДЯНЫХ ЗНАКОВ ---
+
 export default function App() {
   const [step, setStep] = useState('welcome');
   const [current, setCurrent] = useState(0);
@@ -70,13 +101,19 @@ export default function App() {
       <div className="absolute top-[-15%] left-[-10%] w-[60%] h-[60%] bg-orange-300/30 rounded-full blur-[110px] z-[-2]" />
       <div className="absolute bottom-[-15%] right-[-10%] w-[50%] h-[50%] bg-orange-400/20 rounded-full blur-[130px] z-[-2]" />
 
-      {/* Слой 2: Водяные знаки ORO AI (СЕТКА) */}
-      <div className="absolute inset-0 pointer-events-none select-none z-0 overflow-hidden flex flex-wrap gap-20 p-10 justify-around content-around opacity-20">
-        {[...Array(30)].map((_, i) => (
+      {/* Слой 2: Водяные знаки ORO AI (ХАОТИЧНАЯ СЕТКА С АБСОЛЮТНЫМ ПОЗИЦИОНИРОВАНИЕМ) */}
+      <div className="absolute inset-0 pointer-events-none select-none z-0 overflow-hidden">
+        {WATERMARK_DATA.map((mark) => (
           <div
-            key={i}
-            className="font-black text-4xl tracking-tighter text-slate-900 uppercase whitespace-nowrap"
-            style={{ transform: `rotate(${(i % 2 === 0 ? 25 : -25)}deg)` }}
+            key={mark.id}
+            className="absolute font-black text-4xl tracking-tighter text-slate-950 uppercase whitespace-nowrap"
+            style={{
+              top: mark.top,
+              left: mark.left,
+              transform: `rotate(${mark.rotate})`,
+              // МАКСИМАЛЬНАЯ ПРОЗРАЧНОСТЬ ДЛЯ ЕЛЕ ЗАМЕТНОГО ЭФФЕКТА
+              opacity: 0.05 
+            }}
           >
             ORO AI
           </div>
