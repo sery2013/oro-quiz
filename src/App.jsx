@@ -63,16 +63,16 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8fafc] flex items-center justify-center p-4 font-sans text-slate-800 overflow-hidden relative">
-      {/* Background Decor: Светлый фон с мягким оранжевым и голубым свечением */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_rgba(255,165,0,0.08),_transparent)] -z-10" />
-      <div className="absolute top-[-20%] left-[-10%] w-[70%] h-[70%] bg-orange-200/40 rounded-full blur-[120px] -z-10" />
-      <div className="absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] bg-blue-100/50 rounded-full blur-[120px] -z-10" />
-      <div className="absolute top-[30%] right-[10%] w-[30%] h-[30%] bg-yellow-100/30 rounded-full blur-[100px] -z-10" />
+    <div className="min-h-screen bg-[#f1f3f6] flex items-center justify-center p-4 font-sans text-slate-800 overflow-hidden relative">
+      {/* Background Decor: Усиленные оранжевые акценты на приглушенном фоне */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_rgba(251,146,60,0.12),_transparent)] -z-10" />
+      <div className="absolute top-[-15%] left-[-10%] w-[60%] h-[60%] bg-orange-300/30 rounded-full blur-[110px] -z-10" />
+      <div className="absolute bottom-[-15%] right-[-10%] w-[50%] h-[50%] bg-orange-400/20 rounded-full blur-[130px] -z-10" />
+      <div className="absolute top-[20%] right-[15%] w-[25%] h-[25%] bg-blue-200/40 rounded-full blur-[90px] -z-10" />
 
       {step === 'welcome' && (
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-md w-full bg-white/80 backdrop-blur-2xl p-10 rounded-[2.5rem] shadow-[0_20px_50px_-12px_rgba(251,146,60,0.15)] border border-white text-center">
-          <div className="bg-gradient-to-r from-orange-400 to-yellow-400 px-6 py-2 rounded-2xl mx-auto mb-6 flex items-center justify-center shadow-lg shadow-orange-100 w-fit">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-md w-full bg-white p-10 rounded-[2.5rem] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.1)] border border-white/50 text-center">
+          <div className="bg-gradient-to-r from-orange-400 to-yellow-400 px-6 py-2 rounded-2xl mx-auto mb-6 flex items-center justify-center shadow-lg shadow-orange-200 w-fit">
             <span className="text-white font-black text-2xl tracking-tighter uppercase">ORO AI</span>
           </div>
           
@@ -86,11 +86,11 @@ export default function App() {
           </div>
           
           <div className="space-y-4">
-            <label className="block w-full p-4 rounded-2xl border-2 border-dashed border-slate-200 hover:border-orange-300 transition-colors cursor-pointer bg-white/50">
+            <label className="block w-full p-4 rounded-2xl border-2 border-dashed border-slate-200 hover:border-orange-300 transition-colors cursor-pointer bg-slate-50/50">
               <span className="text-sm font-bold text-slate-500">{avatar ? "✓ Avatar Ready" : "Upload Identity Avatar"}</span>
               <input type="file" onChange={handleAvatar} className="hidden" accept="image/*" />
             </label>
-            <button onClick={() => setStep('quiz')} className="w-full bg-slate-900 text-white font-bold py-4 rounded-2xl shadow-xl hover:bg-black hover:scale-[1.02] transition-all uppercase tracking-widest text-xs">
+            <button onClick={() => setStep('quiz')} className="w-full bg-slate-900 text-white font-bold py-4 rounded-2xl shadow-xl hover:bg-black transition-all uppercase tracking-widest text-xs">
               Initiate System
             </button>
           </div>
@@ -106,7 +106,7 @@ export default function App() {
             </div>
             <div className="relative flex items-center justify-center w-14 h-14">
                <svg className="w-full h-full transform -rotate-90">
-                 <circle cx="28" cy="28" r="24" stroke="currentColor" strokeWidth="4" fill="transparent" className="text-slate-100" />
+                 <circle cx="28" cy="28" r="24" stroke="currentColor" strokeWidth="4" fill="transparent" className="text-slate-200" />
                  <circle cx="28" cy="28" r="24" stroke="currentColor" strokeWidth="4" fill="transparent" 
                    strokeDasharray={150.8} strokeDashoffset={150.8 - (timeLeft / 30) * 150.8}
                    className={`${timeLeft < 10 ? 'text-red-500' : 'text-orange-400'} transition-all duration-1000`} />
@@ -117,7 +117,7 @@ export default function App() {
 
           <AnimatePresence mode="wait">
             <motion.div key={current} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 1.05 }}
-              className="bg-white/90 backdrop-blur-2xl p-8 md:p-12 rounded-[2.5rem] shadow-xl border border-white min-h-[420px] flex flex-col justify-center relative overflow-hidden">
+              className="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-white min-h-[420px] flex flex-col justify-center relative overflow-hidden">
               <div className="absolute top-0 right-0 p-8 opacity-[0.03] pointer-events-none">
                 <span className="text-8xl font-black">ORO</span>
               </div>
@@ -125,9 +125,9 @@ export default function App() {
               <div className="grid gap-4 relative z-10">
                 {questions[current].options.map((opt, i) => (
                   <button key={i} onClick={() => handleNext(i)} 
-                    className="group w-full text-left p-5 rounded-2xl bg-white/60 border border-slate-100 hover:border-orange-400 hover:bg-white transition-all flex justify-between items-center shadow-sm">
+                    className="group w-full text-left p-5 rounded-2xl bg-slate-50/50 border border-slate-100 hover:border-orange-400 hover:bg-white transition-all flex justify-between items-center shadow-sm">
                     <span className="font-semibold text-slate-700 group-hover:text-orange-600">{opt}</span>
-                    <div className="w-5 h-5 rounded-full border-2 border-slate-100 group-hover:border-orange-400 transition-colors" />
+                    <div className="w-5 h-5 rounded-full border-2 border-slate-200 group-hover:border-orange-400 transition-colors" />
                   </button>
                 ))}
               </div>
@@ -138,8 +138,7 @@ export default function App() {
 
       {step === 'result' && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center w-full flex flex-col items-center max-w-2xl px-4">
-          <div ref={cardRef} className="bg-gradient-to-br from-white via-slate-50 to-orange-50 p-10 rounded-[2.5rem] shadow-[0_20px_70px_-15px_rgba(251,146,60,0.3)] border border-white overflow-hidden relative mb-8 w-full max-w-[540px]">
-            <div className="absolute -top-20 -left-20 w-40 h-40 bg-white/50 blur-3xl rounded-full" />
+          <div ref={cardRef} className="bg-gradient-to-br from-white via-slate-50 to-orange-50 p-10 rounded-[2.5rem] shadow-[0_30px_70px_-15px_rgba(0,0,0,0.15)] border border-white overflow-hidden relative mb-8 w-full max-w-[540px]">
             <div className="absolute top-0 inset-x-0 h-2 bg-gradient-to-r from-blue-400 via-orange-300 to-yellow-400" />
             
             <p className="text-[12px] font-black tracking-[0.5em] text-slate-300 mb-10 uppercase text-center">Identity Network Node</p>
@@ -154,13 +153,13 @@ export default function App() {
               </div>
             </div>
             
-            <div className="bg-white/60 backdrop-blur-md rounded-2xl p-5 mb-8 border border-white/50 text-left shadow-inner">
+            <div className="bg-slate-100/50 rounded-2xl p-5 mb-8 border border-white text-left shadow-inner">
               <p className="text-[9px] text-slate-400 uppercase font-black mb-1 tracking-widest">Discord Identity</p>
               <p className="text-xl font-mono font-bold text-slate-800 truncate">{discord || 'Anonymous_Explorer'}</p>
             </div>
 
             <div className="flex justify-between items-end px-2">
-              <div className="py-2.5 px-6 bg-slate-900 text-white rounded-xl text-[10px] font-black tracking-[0.25em] shadow-lg shadow-slate-200">
+              <div className="py-2.5 px-6 bg-slate-900 text-white rounded-xl text-[10px] font-black tracking-[0.25em] shadow-lg shadow-slate-400">
                 ORO_VALIDATED
               </div>
               <div className="mb-[-4px] leading-none">
@@ -177,9 +176,9 @@ export default function App() {
               placeholder="Your Discord Handle" 
               value={discord}
               onChange={(e) => setDiscord(e.target.value)}
-              className="w-full p-4 rounded-2xl border border-white bg-white/80 backdrop-blur-md focus:outline-none focus:ring-2 focus:ring-orange-200 transition-all text-center font-bold text-slate-700 shadow-sm"
+              className="w-full p-4 rounded-2xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-orange-200 transition-all text-center font-bold text-slate-700 shadow-sm"
             />
-            <button onClick={downloadCard} className="w-full bg-slate-900 text-white font-black py-4 rounded-2xl shadow-xl hover:bg-black hover:scale-[1.02] transition-all uppercase tracking-widest">
+            <button onClick={downloadCard} className="w-full bg-slate-900 text-white font-black py-4 rounded-2xl shadow-xl hover:bg-black transition-all uppercase tracking-widest">
               Download ID
             </button>
             <button onClick={shareTwitter} className="w-full bg-[#1DA1F2] text-white font-bold py-4 rounded-2xl shadow-xl hover:opacity-90 transition-all">
