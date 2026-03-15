@@ -7,7 +7,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 const generateWatermarks = () => {
   const count = 18;
   const marks = [];
-  // Используем сетку 6x3 для более равномерного разброса по экрану
   const columns = 6;
   const rows = 3;
   
@@ -17,7 +16,6 @@ const generateWatermarks = () => {
     
     marks.push({
       id: i,
-      // Добавляем случайное смещение внутри ячейки сетки, чтобы не выглядело слишком ровно
       top: `${(row * 33) + Math.random() * 20}%`,
       left: `${(col * 16) + Math.random() * 10}%`,
       rotate: `${Math.random() * 360}deg`,
@@ -95,7 +93,7 @@ export default function App() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_rgba(251,146,60,0.06),_transparent)] z-[-2]" />
       <div className="absolute top-[-20%] left-[-10%] w-[70%] h-[70%] bg-orange-200/10 rounded-full blur-[120px] z-[-2]" />
 
-      {/* Слой 2: Водяные знаки (Разбросаны по одному, 18 шт) */}
+      {/* Слой 2: Водяные знаки */}
       <div className="absolute inset-0 pointer-events-none select-none z-0 overflow-hidden">
         {WATERMARK_DATA.map((mark) => (
           <div
@@ -165,14 +163,16 @@ export default function App() {
           </div>
           <AnimatePresence mode="wait">
             <motion.div key={current} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 1.05 }}
-              className="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-white min-h-[420px] flex flex-col justify-center relative overflow-hidden">
-              <h2 className="text-2xl font-bold mb-10 text-slate-800 leading-snug relative z-10">{questions[current].question}</h2>
-              <div className="grid gap-4 relative z-10">
+              className="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-white min-h-[460px] flex flex-col justify-center relative overflow-hidden">
+              <h2 className="text-xl md:text-2xl font-bold mb-8 text-slate-800 leading-snug relative z-10">{questions[current].question}</h2>
+              
+              {/* Сетка ответов адаптирована под 4-5 вариантов */}
+              <div className="grid gap-3 relative z-10 w-full">
                 {questions[current].options.map((opt, i) => (
                   <button key={i} onClick={() => handleNext(i)} 
-                    className="group w-full text-left p-5 rounded-2xl bg-slate-50/50 border border-slate-100 hover:border-orange-400 hover:bg-white transition-all flex justify-between items-center shadow-sm">
-                    <span className="font-semibold text-slate-700 group-hover:text-orange-600">{opt}</span>
-                    <div className="w-5 h-5 rounded-full border-2 border-slate-200 group-hover:border-orange-400 transition-colors" />
+                    className="group w-full text-left p-4 rounded-xl bg-slate-50/50 border border-slate-100 hover:border-orange-400 hover:bg-white transition-all flex justify-between items-center shadow-sm">
+                    <span className="font-semibold text-slate-700 text-sm md:text-base group-hover:text-orange-600 leading-tight">{opt}</span>
+                    <div className="w-4 h-4 rounded-full border-2 border-slate-200 group-hover:border-orange-400 transition-colors shrink-0 ml-4" />
                   </button>
                 ))}
               </div>
